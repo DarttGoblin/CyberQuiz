@@ -96,7 +96,36 @@
             Test your cybersecurity knowledge with adaptive quizzes. Answer questions on phishing,
             password safety, and general security practices. The system adapts difficulty based on your performance.
         </span>
-        <div class="quiz-container"></div>
+        <div class="quiz-intro">
+            <img class="intro-image" src="CyberQuiz.Media/CyberQuiz.Media/intro.png">
+            <button class="intro-start">Start Quiz</button>
+        </div>
+        <div class="quiz-container">
+            <div class="progress-container">
+                <span class="quit-icon">×</span>
+                <div class="progress-bar-father"><div class="progress-bar-child"><div class="progress-bar-grandchild"></div></div></div>
+                <span class="lives-span">
+                    <img class="heart-icon" src="../CyberQuiz/CyberQuiz.Media/CyberQuiz.Media/heart.svg">
+                    <span class="lives-count">3</span>
+                </span>
+            </div>
+            <div class="topic-container">
+                <img class="topic-image">
+                <span class="topic"></span>
+            </div>
+            <span class="question"></span>
+            <div class="options-container">
+                <span class="option"></span>
+                <span class="option"></span>
+                <span class="option"></span>
+                <span class="option"></span>
+            </div>
+            <span class="explanation"></span>
+            <div class="quiz-buttons">
+                <button class="quiz-button skip">Skip</button>
+                <button class="quiz-button check">Check</button>
+            </div>
+        </div>
     </section>    
 
     <section class="about-section">
@@ -130,7 +159,7 @@
                     <div class="benefit-container">
                         <span class="benefit-title">Interactive Learning</span>
                         <span class="benefit-description">
-                            Learn through engaging questions and instant feedback.
+                            Learn through engaging easy to hard questions and instant feedback.
                         </span>
                     </div>
                 </div>
@@ -217,5 +246,6 @@
     <script src="CyberQuiz.Scripts/Footer.js"></script>
     <script src="CyberQuiz.Scripts/Home.js"></script>
     <script src="CyberQuiz.Scripts/About.js"></script>
+    <script src="CyberQuiz.Scripts/CyberQuiz.js"></script>
     <script src="CyberQuiz.js"></script>
 </body>
