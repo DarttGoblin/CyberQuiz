@@ -12,6 +12,7 @@ const explanation = document.querySelector('.explanation');
 const skip = document.querySelector('.skip');
 const check = document.querySelector('.check');
 
+let ids = [];
 let num_of_question = 5;
 let difficulty = 50;
 let correctAnswer;
@@ -32,6 +33,7 @@ quit_icon.onclick = function() { alert('User has quit'); };
 check.onclick = function() {
     if (check.textContent === "Reload") {
         location.reload();
+        ids = [];
     }
 
     if (check.textContent === "Continue") {
@@ -85,13 +87,20 @@ function NextQuestion() {
     answer = null;
     options.forEach(option => option.classList.remove('option-clicked'));
 
-    const filtered = quiz_questions.reduce((prev, curr) => {
+    const availableQuestions = quiz_questions.filter(q => !ids.includes(q.id));
+    if (availableQuestions.length === 0) {
+        YouWon();
+        return;
+    }
+
+    let filtered = availableQuestions.reduce((prev, curr) => {
         return (Math.abs(curr.difficulty - difficulty) < Math.abs(prev.difficulty - difficulty) ? curr : prev);
     });
 
     chosen_question = filtered;
     topic_image.src = chosen_question.image;
     topic.textContent = chosen_question.topic;
+    topic.style.color = chosen_question.color;
     question.textContent = chosen_question.question;
 
     let shuffled_options = [...chosen_question.options];
@@ -104,6 +113,7 @@ function NextQuestion() {
         optionElement.textContent = shuffled_options[index];
     });
 
+    ids.push(chosen_question.id);
     console.log(chosen_question.difficulty);
 }
 
