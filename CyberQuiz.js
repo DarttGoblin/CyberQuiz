@@ -14,22 +14,20 @@ const check = document.querySelector('.check');
 
 let ids = [];
 let num_of_question = 5;
-let difficulty = 50;
+let difficulty = "medium";
 let correctAnswer;
-let state = false;
 let chosen_option;
 let chosen_question;
 let lives = 3;
 let progress = 0;
 let answer;
 
-IntroState();
 ClickOption();
 NextQuestion();
 
-skip.onclick = function() { NextQuestion(); };
-quit_icon.onclick = function() { alert('User has quit'); };
-
+intro_start.onclick = function() { IntroState(true); };
+quit_icon.onclick = function() { IntroState(false); };
+skip.onclick = NextQuestion;
 check.onclick = function() {
     if (check.textContent === "Reload") {
         location.reload();
@@ -54,18 +52,21 @@ check.onclick = function() {
 function Correct() {
     progress = progress + (100 / num_of_question);
     progress_bar_child.style.width = `${progress}%`;
-    difficulty = Math.min(difficulty + 10, 100);
     explanation.textContent = chosen_question.explanation;
     chosen_option.classList.add('correct');
     Interactions(false);
-    if (progress == 100) setTimeout(YouWon, 2000);
+
+    // Increase difficulty step
+    if (difficulty === "easy") difficulty = "medium";
+    else if (difficulty === "medium") difficulty = "hard";
+
+    if (progress === 100) setTimeout(YouWon, 2000);
     else check.textContent = "Continue";
 }
 
 function Wrong() {
     lives--;
     lives_count.textContent = lives;
-    difficulty = Math.min(difficulty - 10, 0);
     chosen_option.classList.add('wrong');
 
     options.forEach(option => {
@@ -77,6 +78,10 @@ function Wrong() {
     explanation.textContent = chosen_question.explanation;
     Interactions(false);
     check.textContent = "Continue";
+
+    // Decrease difficulty step
+    if (difficulty === "hard") difficulty = "medium";
+    else if (difficulty === "medium") difficulty = "easy";
 
     if (lives <= 0) {
         setTimeout(GameOver, 500);
@@ -93,11 +98,11 @@ function NextQuestion() {
         return;
     }
 
-    let filtered = availableQuestions.reduce((prev, curr) => {
-        return (Math.abs(curr.difficulty - difficulty) < Math.abs(prev.difficulty - difficulty) ? curr : prev);
-    });
+    // Filter questions by current difficulty level
+    const matchingDifficulty = availableQuestions.filter(q => q.difficulty === difficulty);
+    let pool = matchingDifficulty.length ? matchingDifficulty : availableQuestions;
 
-    chosen_question = filtered;
+    chosen_question = pool[Math.floor(Math.random() * pool.length)];
     topic_image.src = chosen_question.image;
     topic.textContent = chosen_question.topic;
     topic.style.color = chosen_question.color;
@@ -114,7 +119,7 @@ function NextQuestion() {
     });
 
     ids.push(chosen_question.id);
-    console.log(chosen_question.difficulty);
+    console.log("Current difficulty:", difficulty);
 }
 
 function Interactions(allow) {
@@ -135,6 +140,8 @@ function GameOver() {
     lives_count.textContent = lives;
     progress = 0;
     progress_bar_child.style.width = "0%";
+    difficulty = "medium";
+    ids = [];
     NextQuestion();
 }
 
@@ -147,7 +154,7 @@ function YouWon() {
 function ClickOption() {
     options.forEach(option => {
         option.onclick = function() {
-            options.forEach(previous_option => previous_option.classList.remove('option-clicked'));
+            options.forEach(o => o.classList.remove('option-clicked'));
             option.classList.add('option-clicked');
             chosen_option = option;
             answer = option.textContent;
@@ -155,9 +162,17 @@ function ClickOption() {
     });
 }
 
-function IntroState() {
-    intro_start.onclick = function() {
+function IntroState(show) {
+    if (show) {
         quiz_intro.style.display = 'none';
         quiz_container.style.display = 'flex';
+    } else {
+        quiz_intro.style.display = 'flex';
+        quiz_container.style.display = 'none';
+        lives = 3;
+        lives_count.textContent = lives;
+        progress = 0;
+        progress_bar_child.style.width = "0%";
+        difficulty = "medium";
     }
 }

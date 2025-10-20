@@ -9,8 +9,3 @@ start.onclick = function() {
 github.onclick = function() {
     window.open('https://github.com/DarttGoblin/CyberQuiz', '_blank');
 }
-
-demo.onclick = function() {
-    alert('Demo will be available soon...');
-    // window.open('', '_blank');
-}

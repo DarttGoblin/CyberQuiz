@@ -97,7 +97,7 @@
     width: 0%;
     background-color: var(--primary-color);
     border-radius: 30px;
-    transition: width 1s;
+    transition: width 0.5s;
 }
 
 .progress-bar-grandchild {
@@ -187,7 +187,7 @@
     color: gray;
 }
 
-.quiz-buttons {
+.quiz-buttons-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -258,7 +258,7 @@
     }
 
     .topic {
-        font-size: 20px;
+        font-size: 15px;
     }
 
     .question {
@@ -285,5 +285,14 @@
 
     .explanation {
         font-size: 18px;
+    }
+
+    .quiz-button {
+        font-size: 18px;
+        padding: 10px 40px;
+    }
+
+    .quiz-buttons-container {
+        margin-top: -20px;
     }
 }
