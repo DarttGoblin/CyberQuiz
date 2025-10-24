@@ -13,7 +13,7 @@ const skip = document.querySelector('.skip');
 const check = document.querySelector('.check');
 
 let ids = [];
-let num_of_question = 5;
+let num_of_question = 20;
 let difficulty = "medium";
 let correctAnswer;
 let chosen_option;

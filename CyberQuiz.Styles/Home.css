@@ -62,13 +62,13 @@
     border: 2px solid var(--primary-hover);
 }
 
-.github, .demo {
+.github, .report {
     background: none;
     color: var(--primary-color);
     transition: color var(--primary-transition), background-color var(--primary-transition), border var(--primary-transition);
 }
 
-.github:hover, .demo:hover {
+.github:hover, .report:hover {
     color: white;
 }
 
