@@ -12,6 +12,9 @@ const explanation = document.querySelector('.explanation');
 const skip = document.querySelector('.skip');
 const check = document.querySelector('.check');
 
+const correct_sound = new Audio("CyberQuiz.Media/CyberQuiz.Media/correct.mp3");
+const wrong_sound = new Audio("CyberQuiz.Media/CyberQuiz.Media/wrong.mp3");
+
 let ids = [];
 let num_of_question = 20;
 let difficulty = "medium";
@@ -27,7 +30,7 @@ NextQuestion();
 
 intro_start.onclick = function() { IntroState(true); };
 quit_icon.onclick = function() { IntroState(false); };
-skip.onclick = NextQuestion;
+skip.onclick = SkipQuestion;
 check.onclick = function() {
     if (check.textContent === "Reload") {
         location.reload();
@@ -50,13 +53,14 @@ check.onclick = function() {
 };
 
 function Correct() {
+    correct_sound.currentTime = 0;
+    correct_sound.play();
     progress = progress + (100 / num_of_question);
     progress_bar_child.style.width = `${progress}%`;
     explanation.textContent = chosen_question.explanation;
     chosen_option.classList.add('correct');
     Interactions(false);
 
-    // Increase difficulty step
     if (difficulty === "easy") difficulty = "medium";
     else if (difficulty === "medium") difficulty = "hard";
 
@@ -65,6 +69,8 @@ function Correct() {
 }
 
 function Wrong() {
+    wrong_sound.currentTime = 0;
+    wrong_sound.play();
     lives--;
     lives_count.textContent = lives;
     chosen_option.classList.add('wrong');
@@ -79,7 +85,6 @@ function Wrong() {
     Interactions(false);
     check.textContent = "Continue";
 
-    // Decrease difficulty step
     if (difficulty === "hard") difficulty = "medium";
     else if (difficulty === "medium") difficulty = "easy";
 
@@ -98,7 +103,6 @@ function NextQuestion() {
         return;
     }
 
-    // Filter questions by current difficulty level
     const matchingDifficulty = availableQuestions.filter(q => q.difficulty === difficulty);
     let pool = matchingDifficulty.length ? matchingDifficulty : availableQuestions;
 
@@ -120,6 +124,12 @@ function NextQuestion() {
 
     ids.push(chosen_question.id);
     console.log("Current difficulty:", difficulty);
+}
+
+function SkipQuestion() {
+    const skip_sound = new Audio(`CyberQuiz.Media/CyberQuiz.Media/skip_sounds/skip_sound (${Math.floor(Math.random() * 7) + 1}).mp3`);
+    skip_sound.play();
+    NextQuestion();
 }
 
 function Interactions(allow) {
